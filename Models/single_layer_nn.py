@@ -10,7 +10,6 @@ class SingleLayerTest(Module):
         self.linear = Linear(in_features=input_features, out_features=10)
 
     def forward(self, x):
-        x_centered = torch.add(x, -torch.mean(x))
-        h = self.linear(x_centered)
+        h = self.linear(x)
 
         return h

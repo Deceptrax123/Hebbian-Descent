@@ -1,24 +1,33 @@
-from torch.nn import Module, Linear
-from torch.nn.functional import softmax
+from torch.nn import Module, Linear, Softmax
+from torch.nn.functional import softmax, relu
 import torch
 
 
-class MultiLayerTest(Module):
+class HiddenLayer(Module):
     def __init__(self, input_features):
-        super(MultiLayerTest, self).__init__()
+        super(HiddenLayer, self).__init__()
 
         self.linear1 = Linear(input_features, 200)
         self.linear2 = Linear(200, 200)
+
+    def forward(self, x):
+        x = torch.add(x, -torch.mean(x))
+        x = relu(self.linear1(x))
+
+        x = torch.add(x, -torch.mean(x))
+        x = relu(self.linear2(x))
+
+        return x
+
+
+class MultiLayerClassifier(Module):
+    def __init__(self, input_features):
+        super(MultiLayerClassifier, self).__init__()
+        self.hidden = HiddenLayer(input_features=input_features)
         self.output = Linear(200, 10)
 
     def forward(self, x):
-        x_centered = torch.add(x, -torch.mean(x))
-        h1 = self.linear1(x_centered).relu()
+        hidden = self.hidden(x)
+        confidence = softmax(self.output(hidden), dim=1)
 
-        h_centered = torch.add(h1, -torch.mean(h1))
-        h2 = self.linear2(h_centered).relu()
-
-        h2_centered = torch.add(h2, -torch.mean(h2))
-        logits = self.output(h2_centered)
-
-        return softmax(logits, dim=1)
+        return hidden, confidence
