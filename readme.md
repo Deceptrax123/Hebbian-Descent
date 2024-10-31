@@ -1,5 +1,5 @@
 # Hebbian Descent
-PyTorch implementation of the paper <a href="https://direct.mit.edu/neco/article/36/9/1669/124060/Hebbian-Descent-A-Unified-View-on-Log-Likelihood">Hebbian Descent: A Unified View on Log-Likelihood Learning</a>.
+PyTorch implementation of the views presented in <a href="https://direct.mit.edu/neco/article/36/9/1669/124060/Hebbian-Descent-A-Unified-View-on-Log-Likelihood">Hebbian Descent: A Unified View on Log-Likelihood Learning</a> to overcome the saturation of final layer activations by modifying the update rule using Hebbian descent. 
 
 ## Models Tested
 - Single Layer Neural Network
@@ -8,6 +8,7 @@ PyTorch implementation of the paper <a href="https://direct.mit.edu/neco/article
 ## Training Curves
 ![Train Accuracy](Graphs/single_nn_train.png)
 ![Test Accuracy](Graphs/test_accuracy.png)
+
 ## Citation
 
 ```
