@@ -11,10 +11,14 @@ class CrossEntropyLoss(Module):
 
     def forward(self, predictions, targets):  # Predictions/Target:(B,C)
 
-        liklihood = torch.log(F.softmax(predictions, dim=1))
-        loss = -torch.sum(liklihood*targets, dim=1)
+        targets = torch.nn.functional.one_hot(targets, num_classes=10)
+        log_liklihood = -1*torch.sum(targets*torch.log(predictions), dim=1)
 
-        if self.weights:
-            loss = -torch.sum(self.weights*liklihood*targets, dim=1)  # (B,1)
+        if self.weights is not None:
+            log_liklihood = -1*torch.sum(
+                targets*torch.log(predictions)*self.weights, dim=1)
 
-        return torch.mean(loss, dim=0) if self.reduction else loss
+        if self.reduction:
+            return torch.mean(log_liklihood)
+        else:
+            return log_liklihood

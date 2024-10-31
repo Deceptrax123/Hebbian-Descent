@@ -13,4 +13,4 @@ class SingleLayerTest(Module):
         x_centered = torch.add(x, -torch.mean(x))
         h = self.linear(x_centered)
 
-        return h, softmax(h, dim=1)
+        return h

@@ -21,4 +21,4 @@ class MultiLayerTest(Module):
         h2_centered = torch.add(h2, -torch.mean(h2))
         logits = self.output(h2_centered)
 
-        return logits, softmax(logits, dim=1)
+        return softmax(logits, dim=1)
